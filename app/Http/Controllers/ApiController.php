@@ -259,4 +259,40 @@ class ApiController extends Controller
         
         return storage_path('app/'.$sector->name.'.xml');
     }
+
+    public function authenticate(Request $request){
+        $device = DB::table('devices')->find($request->device_id);
+
+        if($device === null)
+            return response()->json([
+                'message' => 'The device ID not found!',
+                'status' => 'Unsuccess',
+            ]);
+        
+        if($device->pass == "" && $device->code != "")    
+            return response()->json([
+                'message' => 'The device need to register',
+                'status' => 'Unsuccess',
+            ]);
+
+        if( $request->password === $device->pass ){
+
+            $access_token = (new Token())->Unique('devices', 'code', 60);
+
+            DB::table('devices')
+                ->where('id', $device->id)
+                ->update(['access_token' => $access_token ]);
+
+            return response()->json([
+                'status' => 'Success',
+                'access_token' => $access_token,
+            ]);
+        }      
+        else
+            return response()->json([
+                'message' => 'The Password is incorrect',
+                'status' => 'Unsuccess',
+            ]);     
+    }
+
 }
