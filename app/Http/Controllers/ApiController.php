@@ -34,8 +34,7 @@ class ApiController extends Controller
 
         return response()->json([
             'id' => $device->id,
-            'mac_addr' => $device->mac_addr,
-            'pass' => $device->pass,
+            'mac_addr' => $device->mac_addr
         ]);
     }
 
@@ -56,13 +55,13 @@ class ApiController extends Controller
 
     public function updateDeviceInfo(Request $request){
 
-        if( DB::table('devices')->find($request->id) === null)
+        if( DB::table('devices')->find($request->device_id) === null)
             return response()->json([
                 'message' => 'ID not exist',
             ]);
 
         DB::table('devices')
-            ->where('id', $request->id)
+            ->where('id', $request->device_id)
             ->update([
                 'version' => $request->app_version,
                 'mac_addr' => $request->mac_address,

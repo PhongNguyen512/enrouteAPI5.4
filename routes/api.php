@@ -19,12 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('APIToken')->group(function () {
 
-    // enrouteAPI5.test/api/createNewDevice
-    Route::get('/createNewDevice', 'apiController@newDevice')->name('api.newDevice');
-
-    // enrouteAPI5.test/api/deviceExistAPI/1
-    Route::get('/deviceExistAPI/{deviceID}', 'apiController@deviceExist')->name('api.checkDeviceExist');
-
     // enrouteAPI5.test/api/updateDeviceInfo
     Route::post('/updateDeviceInfo', 'apiController@updateDeviceInfo')->name('api.updateDeviceInfo');
 
@@ -40,5 +34,11 @@ Route::middleware('APIToken')->group(function () {
 
 });
 
+// enrouteAPI5.test/api/createNewDevice
+Route::get('/newDevice', 'apiController@newDevice')->name('api.newDevice');
+
 // enrouteapi5.test/api/authenticate
 Route::post('/authenticate', 'apiController@authenticate')->name('api.authenticate');
+
+// enrouteAPI5.test/api/deviceExist/1
+Route::get('/deviceExist/{deviceID}', 'apiController@deviceExist')->name('api.checkDeviceExist');
