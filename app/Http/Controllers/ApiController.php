@@ -5,17 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Dirape\Token\Token;
 
 class ApiController extends Controller
 {
     public function newDevice(){
+
         $id = DB::table('devices')->insertGetId([
             'ip_addr' => '0.0.0.0', 
             ]
         );
 
+        $registerCode = $this->updateRegisterCode($id);
+
         return response()->json([
             'id' => $id,
+            'code' => $registerCode
         ]);
     }
 
@@ -34,19 +39,19 @@ class ApiController extends Controller
         ]);
     }
 
-    public function updateRegisterCode($deviceID, $code){
+    public function updateRegisterCode($deviceID){
         if( DB::table('devices')->find($deviceID) === null)
             return response()->json([
                 'message' => 'ID not exist',
             ]);
 
+        $registerCode = strtoupper((new Token())->Unique('devices', 'code', 6));
+
         DB::table('devices')
             ->where('id', $deviceID)
-            ->update(['code' => $code]);
+            ->update(['code' => $registerCode ]);
 
-        return response()->json([
-            'message' => 'Update Success!',
-        ]);
+        return $registerCode;
     }
 
     public function updateDeviceInfo(Request $request){

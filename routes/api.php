@@ -25,7 +25,7 @@ Route::get('/createNewDevice', 'apiController@newDevice')->name('api.newDevice')
 Route::get('/deviceExistAPI/{deviceID}', 'apiController@deviceExist')->name('api.checkDeviceExist');
 
 // enrouteAPI5.test/api/updateRegisterCode/1/ABC123
-Route::get('/updateRegisterCode/{deviceID}/{code}', 'apiController@updateRegisterCode')->name('api.updateRegisterCode');
+// Route::get('/updateRegisterCode/{deviceID}/{code}', 'apiController@updateRegisterCode')->name('api.updateRegisterCode');
 
 // enrouteAPI5.test/api/updateDeviceInfo
 Route::post('/updateDeviceInfo', 'apiController@updateDeviceInfo')->name('api.updateDeviceInfo');
